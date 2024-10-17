@@ -1,25 +1,26 @@
 <style>
-    .table-container {
-      width: 100%;
-      overflow-x: auto;
-    }
-  
-    .modal-content {
-      width: 1200px !important;
-      max-width: 100%;
-      margin: auto;
-    }
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-  
-    th, th {
-      padding: 8px;
-      text-align: center;
-    }
-  </style>
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .modal-content {
+    width: 1200px !important;
+    max-width: 100%;
+    margin: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  th {
+    padding: 8px;
+    text-align: center;
+  }
+</style>
 
 
 
@@ -52,7 +53,7 @@
         <div class="col-sm-12 col-md-12">
           <!-- Example Horizontal Form -->
           <div class="example-wrap">
-            <h4 class="example-title">Tambah Data  Pemasukan / Penerimaan Barang</h4>
+            <h4 class="example-title">Tambah Data Pemasukan / Penerimaan Barang</h4>
             <p>
               **Isi kolom di bawah dengan benar.
             </p>
@@ -87,7 +88,7 @@
                   </div>
                   <label class="col-sm-2 control-label">Penerimaan Kargo : </label>
                   <div class="col-sm-2">
-                    <input type="date" autocomplete="off" placeholder="" name="penerimaan_kargo_tgl" class="form-control"  required="required">
+                    <input type="date" autocomplete="off" placeholder="" name="penerimaan_kargo_tgl" class="form-control" required="required">
                   </div>
                   <div class="col-sm-2">
                     <input type="time" name="penerimaan_kargo_time" class="form-control" placeholder="" required="required">
@@ -127,7 +128,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">No. Bukti Penerimaan / Delivery Order (DO) : </label>
                   <div class="col-sm-4">
-                    <input type="text" autocomplete="off" placeholder="No. Bukti Penerimaan / Delivery Order (DO)" name="no_bukti_penerimaan" class="form-control" required="required"> 
+                    <input type="text" autocomplete="off" placeholder="No. Bukti Penerimaan / Delivery Order (DO)" name="no_bukti_penerimaan" class="form-control" required="required">
                   </div>
                   <label class="col-sm-2 control-label">No Dokumen : </label>
                   <div class="col-sm-4">
@@ -137,8 +138,8 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Nama Pengirim Barang : </label>
                   <div class="col-sm-4">
-                    <input type="text" autocomplete="off" placeholder="Nama Pengirim Barang"  name="pengirim_barang" class="form-control" required="required">
-                    
+                    <input type="text" autocomplete="off" placeholder="Nama Pengirim Barang" name="pengirim_barang" class="form-control" required="required">
+
                     <span style="color: red;font-size: 10px;">* pilih Pengirim Barang wajib di isi</span>
                   </div>
                   <label class="col-sm-2 control-label">Tanggal Dokumen : </label>
@@ -155,20 +156,19 @@
                   </div>
                   <label class="col-sm-2 control-label">Negara Asal Barang : </label>
                   <div class="col-sm-4">
-                   <select data-plugin="select2" name='countries' id="" class="form-control" required="required">
-                                <option value="0">-- Pilih Negara Asal Barang --</option>
-                                    <?php
-                                        foreach($bendera  as $value)
-                                    {   ?>
-                                        <option value="<?= $value->id_negara_asal ?>" ><?= $value->nama_negara  ?></option>
-                                        <?php }
-                                    ?>
-                            </select>
+                    <select data-plugin="select2" name='countries' id="" class="form-control" required="required">
+                      <option value="0">-- Pilih Negara Asal Barang --</option>
+                      <?php
+                      foreach ($bendera  as $value) {   ?>
+                        <option value="<?= $value->id_negara_asal ?>"><?= $value->nama_negara  ?></option>
+                      <?php }
+                      ?>
+                    </select>
                   </div>
-                  
+
                 </div>
                 <div class="form-group">
-                  
+
                   <label class="col-sm-2 control-label">Nama Kapal : </label>
                   <div class="col-sm-4">
                     <input type="text" autocomplete="off" placeholder="Nama Kapal" name="nama_kapal" class="form-control" value="<?= $dataGet->nama_kapal ?>" readonly>
@@ -180,25 +180,25 @@
                   <label class="col-sm-6 control-label" style="color: red;text-align: left;">Qty : <?= number_format($dataGet->jumlah, 2, ",", "."); ?> - <?= $dataGet->id_satuan; ?></label>
                 </div>
                 <div class="col-md-12 mb-3 table-container">
-              <input type="text" id="idTotalPpn" name="totalPN" style="display: none;">
-              <table id="show_table_ap" class="table table-hover table-bordered dataTable table-striped width-full overf">
-                <thead>
-                  <tr>
-                    <th style="width: 1%; border-bottom: 1px solid black;">
-                        <a class="btn btn-primary addRowPK" onclick="addPK()"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                    </th>
-                    
-                    <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Qty</th>
-                    <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Gudang</th>
-                    <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Mata Uang</th>
-                    <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Harga Satuan Barang (origin price)</th>
-                    <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Total Nilai Barang (origin price)</th>
-                    <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Biaya Kurs</th>
-                    <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Calculate Biaya Kurs (conversion price)</th>
-                  </tr>
-                </thead>
-                <tbody id="myTablePK" >
-                  <!-- <tr>
+                  <input type="text" id="idTotalPpn" name="totalPN" style="display: none;">
+                  <table id="show_table_ap" class="table table-hover table-bordered dataTable table-striped width-full overf">
+                    <thead>
+                      <tr>
+                        <th style="width: 1%; border-bottom: 1px solid black;">
+                          <a class="btn btn-primary addRowPK" onclick="addPK()"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        </th>
+
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Qty</th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Gudang</th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Mata Uang</th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Harga Satuan Barang (origin price)</th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Total Nilai Barang (origin price)</th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Biaya Kurs</th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px; border-bottom: 1px solid black;">Calculate Biaya Kurs (conversion price)</th>
+                      </tr>
+                    </thead>
+                    <tbody id="myTablePK">
+                      <!-- <tr>
                       
                       
                       <th><input type="text" autocomplete="off" name="" class="form-control" readonly="readonly" value="<?= number_format($dataGet->jumlah) ?>"><input type="text" autocomplete="off" id="qty_real" name="qty_real" class="form-control" readonly="readonly" value="<?= $dataGet->jumlah ?>" style="display: none;"></th>
@@ -206,7 +206,7 @@
                         <select data-plugin="select2" id="tank_real" name="tank_real" class="form-control" style="width:100%;">
                           <option value="">Pilih</option>
                           <?php
-                            foreach ($tank2 as $value) {
+                          foreach ($tank2 as $value) {
                           ?>
                             <option value="<?php echo $value->tank; ?>"><?php echo $value->tank; ?></option>
                           <?php } ?>
@@ -217,7 +217,7 @@
                         <select data-plugin="select2" id="kurs_real" name="kurs_real" class="form-control classCur" style="width:100%;">
                           <option value="">Pilih</option>
                           <?php
-                            foreach ($kurs as $value) {
+                          foreach ($kurs as $value) {
                           ?>
                             <option value="<?php echo $value->id_kurs; ?>"><?php echo $value->mata_uang; ?></option>
                           <?php } ?>
@@ -226,35 +226,37 @@
                       <th><input type="text" id="harga_satuan_real" name="harga_satuan_real" class="form-control"></th>
                       <th><input type="text" autocomplete="off" id="hasil_real_show" name="hasil_real_show" class="form-control" readonly="readonly"><input type="text" autocomplete="off" id="hasil_real" name="hasil_real" class="form-control" style="display: none;"></th>
                   </tr> -->
-                  </tbody>
-                  <tfoot>
-                  <tr style="text-align: center;">
-                      <th class="JudulHeadr" style="padding-left: 5px;"></th>
-                      <th class="JudulHeadr" style="padding-left: 5px; width: 12%;"><input type="text" id="totalshowqty" class="form-control"></th>
-                      <th class="JudulHeadr" style="padding-left: 5px;"></th>
-                      <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px;"></th>
-                      <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px;"><input type="text" id="totalshowharga" class="form-control" style="display: none;"></th>
-                      <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px;"><input type="text" id="totalshowTH" class="form-control"></th>
-                      <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px;"><input type="text" id="totalshowBK" class="form-control" style="display: none;"></th>
-                      <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px;"><input type="text" id="totalshowCBK" class="form-control"></th>
-                  </tr>
-              </tfoot>
-                  <div id="dataLimitPK"></div>
-                  <input type="text" placeholder="Total Qty" id="totalhasil3" class="form-control" value="0" readonly style="display: none;">
-                  <!-- <tfoot>
+                    </tbody>
+                    <tfoot>
+                      <tr style="text-align: center;">
+                        <th class="JudulHeadr" style="padding-left: 5px;"></th>
+                        <th class="JudulHeadr" style="padding-left: 5px; width: 12%;"><input type="text" id="totalshowqty" class="form-control" required="required" oninput="this.value = this.value.replace(/[^0-9]/g, '');"></th>
+                        <th class="JudulHeadr" style="padding-left: 5px;"></th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px;"></th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px;"><input type="text" id="totalshowharga" class="form-control" style="display: none;"></th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px;"><input type="text" id="totalshowTH" class="form-control" required="required" oninput="this.value = this.value.replace(/[^0-9]/g, '');"></th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px;"><input type="text" id="totalshowBK" class="form-control" style="display: none;"></th>
+                        <th class="JudulHeadr" style="padding-left: 5px; min-width: 150px;"><input type="text" id="totalshowCBK" class="form-control" required="required" oninput="this.value = this.value.replace(/[^0-9]/g, '');"></th>
+
+                      </tr>
+                    </tfoot>
+                    <div id="dataLimitPK"></div>
+                    <input type="text" placeholder="Total Qty" id="totalhasil3" class="form-control" value="0" readonly style="display: none;">
+                    <!-- <tfoot>
                     <th></th>
                     <th class="JudulHeadr" style="padding-left: 5px; width: 10%; ">
                     <input type="text" placeholder="Total Qty" id="totalhasil3" class="form-control" value="0" readonly style="display: none;">
                   </th>
                   <th colspan="4"></th>
                   </tfoot>
- -->              </table>
-                    </div>
-              
+ -->
+                  </table>
+                </div>
+
                 <div class="form-group">
                   <div class="col-sm-8">
-                  <br>
-                    <input class="btn btn-primary" type="submit" value="Simpan" >
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Simpan">
                     <button class="btn btn-default btn-outline" type="reset">Reset</button>
                   </div>
                 </div>
@@ -263,7 +265,7 @@
             </div>
           </div>
           <!-- End Example Horizontal Form -->
-          
+
         </div>
       </div>
     </div>
@@ -301,34 +303,92 @@
   document.getElementById("myForm").addEventListener("submit", approveAlert);
 
   // Use datepicker on the date inputs
-// $("input[type=date]").datepicker({
+  // $("input[type=date]").datepicker({
 
-//   dateFormat: 'yy-mm-dd',
-//   changeMonth: true,
-//   onSelect: function(dateText, inst) {
-//     $(inst).val(dateText); // Write the value in the input
-//   }
-// });
+  //   dateFormat: 'yy-mm-dd',
+  //   changeMonth: true,
+  //   onSelect: function(dateText, inst) {
+  //     $(inst).val(dateText); // Write the value in the input
+  //   }
+  // });
 
-// // Code below to avoid the classic date-picker
-// $("input[type=date]").on('click', function() {
-//   return false;
-// });
+  // // Code below to avoid the classic date-picker
+  // $("input[type=date]").on('click', function() {
+  //   return false;
+  // });
 
 
   function isNumberKey(evt) {
     var theEvent = evt || window.event;
     var key = theEvent.keyCode || theEvent.which;
-    key = String.fromCharCode( key );
+    key = String.fromCharCode(key);
     var regex = /^[0-9.,]+$/;
-    if( !regex.test(key) ) {
+    if (!regex.test(key)) {
       theEvent.returnValue = false;
-      if(theEvent.preventDefault) theEvent.preventDefault();
+      if (theEvent.preventDefault) theEvent.preventDefault();
     }
   }
 
+  // Fungsi untuk memperbarui total qty
+  function updateTotalQtyDisplay() {
+    var total_qty = 0;
+
+    $("#myTablePK .classQty").each(function() {
+      var get_textbox_value = $(this).val();
+      if ($.isNumeric(get_textbox_value)) {
+        total_qty += parseFloat(get_textbox_value);
+      }
+    });
+
+    var formattedTotal = total_qty.toLocaleString('id-ID', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
+
+    document.getElementById("totalshowqty").value = formattedTotal;
+  }
+
+  function validateQty(element) {
+    var qtyValue = parseFloat(element.value.replace(",", "."));
+    var calculated_total_sum = 0;
+
+    $("#myTablePK .classQty").each(function() {
+      var get_textbox_value = $(this).val();
+      if ($.isNumeric(get_textbox_value)) {
+        calculated_total_sum += parseFloat(get_textbox_value);
+      }
+    });
+
+    if (calculated_total_sum > 20860) {
+      alert("Melebihi kapasitas, QTY tidak boleh lebih dari 20.860,00");
+      element.value = ""; // Reset nilai qty jika melebihi
+      var newTotal = calculated_total_sum - qtyValue;
+      document.getElementById("totalshowqty").value = newTotal.toLocaleString('id-ID', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }); // Format
+      return;
+    }
+
+    updateTotalQtyDisplay();
+  }
+
   function addPK() {
-    var table         = document.getElementById("myTablePK");
+    var table = document.getElementById("myTablePK");
+    var calculated_total_sum = 0;
+
+    $("#myTablePK .classQty").each(function() {
+      var get_textbox_value = $(this).val();
+      if ($.isNumeric(get_textbox_value)) {
+        calculated_total_sum += parseFloat(get_textbox_value);
+      }
+    });
+
+    if (calculated_total_sum >= 20860) {
+      alert("Melebihi kapasitas total, QTY tidak boleh lebih dari 20.860,00");
+      return;
+    }
+
     var row = table.insertRow(0);
     var getJml = document.getElementById("get_jml").value;
 
@@ -341,240 +401,268 @@
     var cell7 = row.insertCell(6);
     var cell8 = row.insertCell(7);
 
-    for(var a=0; a<=table.rows.length; a++) {
+    // Menambahkan input limit ke dataLimitPK
+    for (var a = 0; a <= table.rows.length; a++) {
       $('#dataLimitPK').empty();
-      $('<input type="hidden" name="limit_pk" value="'+ a +'" >').appendTo('#dataLimitPK');
+      $('<input type="hidden" name="limit_pk" value="' + a + '" >').appendTo('#dataLimitPK');
     }
 
-    j = a - 1;
+    var j = a - 1;
     cell1.innerHTML = '<a href="javascript:void(0);" class="btn btn-sm btn-default" style="align:center;" onclick="deleteRowPK(this)"><i class="fa fa-remove"></i></a>';
-    // cell1.innerHTML = '<input type="text" class="form-control classKeteranganBarang" style="width:100%;" class="form-control" value="<?= $notif->id_barang; ?> - <?= $notif->nama_brg; ?>" id="classKeteranganBarang"  readonly>';
-    // cell2.innerHTML = '<input type="text" class="form-control classQty" class="form-control" id="barang'+ a +'"  >';
-    cell2.innerHTML = '<input type="text" class="form-control classQty" class="form-control" id="qty'+ a +'" >';
-    cell3.innerHTML = '<select id="tank" class="form-control selectX classTank" style="width:100%;">'+
-                      
-                      <?php
-                        foreach ($tank2 as $value) {
-                      ?>
-                        '<option value="<?php echo $value->tank; ?>"><?php echo $value->nama_tangki_alias; ?></option>'+
-                      <?php } ?>
 
-                      '</select>';
-    cell4.innerHTML = '<select class="form-control selectX classCur" style="width:100%;">'+
-                      
-                      <?php
-                        foreach ($kurs as $value) {
-                      ?>
-                        '<option value="<?php echo $value->id_kurs; ?>"><?php echo $value->mata_uang; ?></option>'+
-                      <?php } ?>
-                      '</select>';
-    cell5.innerHTML = '<input type="text" class="form-control classHarga" style="width:100%;" id="harga' + a + '" oninput="this.value = formatNumber(this.value)">' + '<input type="text" class="form-control classHargaUrutan" style="width:100%; display:none" id="urutan_diem" value="' + j + '">';
-    cell6.innerHTML = '<input type="text" class="form-control classTotalShow" style="width:100%;" class="form-control" id="total_show'+ a +'" readonly><input type="text" class="form-control classTotal" style="width:100%;display:none" class="form-control" id="total'+ a +'" >';
-    cell7.innerHTML = '<input type="text" class="form-control classBiayaKurs" id="biayakurs'+ a +'" ><a href="https://www.bi.go.id/id/statistik/informasi-kurs/transaksi-bi/default.aspx" target="_blank"> Cek Nilai Biaya Kurs</a> ';
-    cell8.innerHTML = '<input type="text" class="form-control classCalculateBiayaKursShow" id="calculatebiayakursshow'+ a +'" ><input type="text" class="form-control classCalculateBiayaKurs" id="calculatebiayakurs'+ a +'" style="width:100%;display:none">';
+    // Ensure these fields are required
+    cell2.innerHTML = '<input type="number" class="form-control classQty" id="qty' + a + '" required oninput="this.value = this.value.replace(/[^0-9]/g, \'\'); validateQty(this)" required>';
 
-      var calculated_total_sum = 0;
+    cell3.innerHTML = '<select id="tank' + a + '" class="form-control selectX classTank" style="width:100%;" required>' +
+    '<option value="0"> Pilih </option>' +
+    <?php foreach ($tank2 as $value) { ?> 
+        '<option value="<?php echo $value->tank; ?>"><?php echo $value->nama_tangki_alias; ?></option>' +
+    <?php } ?> 
+    '</select>';
 
-      $("#myTablePK .classQty").each(function (){
-        var get_textbox_value = $(this).val();
-          if($.isNumeric(get_textbox_value)) {
-          calculated_total_sum += parseFloat(get_textbox_value);
-          document.getElementById("totalhasil3").value = calculated_total_sum;
+$('#tank' + a).change(function() {
+    var selectedTank = $(this).val();
+    var isTankExists = false;
 
-        }                  
+    // Mengecek apakah tank yang dipilih adalah 0 (Pilih Jenis Tank)
+    if (selectedTank !== "0") {
+        $(".classTank").each(function() {
+            // Hanya cek jika id dropdown berbeda dan tank yang dipilih tidak bernilai 0
+            if ($(this).val() === selectedTank && $(this).attr('id') !== 'tank' + a) {
+                isTankExists = true;
+            }
+        });
+    }
+
+    if (isTankExists) {
+        alert("Tank tidak boleh sama dengan yang sudah ada.");
+        // Kembali ke opsi default "Pilih Jenis Tank"
+        $(this).val("0");
+    }
+});
+
+
+
+    cell4.innerHTML = '<select class="form-control selectX classCur" style="width:100%;" required>' +
+      <?php foreach ($kurs as $value) { ?> '<option value="<?php echo $value->id_kurs; ?>"><?php echo $value->mata_uang; ?></option>' +
+      <?php } ?> '</select>';
+
+    cell5.innerHTML = '<input type="text" class="form-control classHarga" style="width:100%;" id="harga' + a + '" oninput="this.value = formatNumber(this.value)" required>';
+
+    cell6.innerHTML = '<input type="text" class="form-control classTotalShow" style="width:100%;" id="total_show' + a + '" readonly>' +
+      '<input type="text" class="form-control classTotal" style="width:100%;display:none" id="total' + a + '" >';
+
+    // Fungsi untuk mengonversi string ke angka
+    function parseNumber(value) {
+      // Menghapus titik dan mengganti koma dengan titik
+      return Number(value.replace(/\./g, '').replace(',', '.'));
+    }
+
+    // Fungsi untuk memformat angka ke string dengan format Koma
+    function formatNumber(value) {
+      // Menggunakan toLocaleString untuk format angka
+      return value.toLocaleString('id-ID', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
       });
-    
-        String.prototype.number_format = function(d) {
-            var n = this;
-            var c = isNaN(d = Math.abs(d)) ? 2 : d;
-            var s = n < 0 ? "-" : "";
-            var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
-            return s + (j ? i.substr(0, j) + ',' : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + ',') + (c ? '.' + Math.abs(n - i).toFixed(c).slice(2) : "");
-        }
-        String.prototype.number_format2 = function(d) {
-            var n = this;
-            var c = isNaN(d = Math.abs(d)) ? 2 : d;
-            var s = n < 0 ? "-" : "";
-            var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
-            return s + (j ? i.substr(0, j) + '.' : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + '.') + (c ? ',' + Math.abs(n - i).toFixed(c).slice(2) : "");
-          }
-          String.prototype.number_format2 = function(d) {
-              var n = parseFloat(this);
-              var c = isNaN(d = Math.abs(d)) ? 2 : d;
-              var s = n < 0 ? "-" : "";
-              var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
-              return s + (j ? i.substr(0, j) + '.' : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + '.') + (c ? ',' + Math.abs(n - i).toFixed(c).slice(2) : "");
-          }
-      
-          $("#qty"+ a).keyup(function(){
-            // var a = Number(document.getElementById("totalhasil").value);
-            // var urutan_diem = document.getElementById("urutan_diem").value;
-            var qty_show = Number(document.getElementById("qty" + a).value);
-            var harga_show = document.getElementById("harga" + a).value;
-            var harga_show = harga_show.replace(".", "");
-            var getqty = Number(document.getElementById("totalhasil3").value);
-            var calculate = qty_show + getqty;
+    }
+
+    cell7.innerHTML = ` 
+        <input type="text" class="form-control classBiayaKurs" id="biayakurs${a}" required required oninput="this.value = formatNumber(this.value)")" >
+        <a href="https://www.bi.go.id/id/statistik/informasi-kurs/transaksi-bi/default.aspx" target="_blank">Cek Nilai Biaya Kurs</a>
+    `;
+
+    cell8.innerHTML = '<input type="text" class="form-control classCalculateBiayaKursShow" id="calculatebiayakursshow'+ a +'"  required="required" readonly><input type="text" class="form-control classCalculateBiayaKurs" id="calculatebiayakurs'+ a +'" style="width:100%;display:none">';
+
+    updateTotalQtyDisplay();
 
 
-            // if(calculate > <?= $dataGet->jumlah ?>){
-            //     alert("Data tidak boleh melebihi Quantity");
-            //     document.getElementById("qty" + a).value = "";
-            // }else{
-              var result_real   = qty_show * harga_show;
-              let text          = result_real.toString();
-              document.getElementById("total_show" + a).value = text.number_format2();
-              document.getElementById("total" + a).value = result_real;
 
-              var total       = result_real;
-              var biayakurs   = document.getElementById("biayakurs" + a).value;
-              console.log(biayakurs);
-              var text3        = biayakurs.replace('.', '');
-              var text4       = text3.replace(',', '.');
-              var calculatebiayakurs = total * text4;
-              let textstring         = calculatebiayakurs.toString();
-              document.getElementById("calculatebiayakursshow" + a).value = textstring.number_format2();
-              document.getElementById("calculatebiayakurs" + a).value = calculatebiayakurs;
+    String.prototype.number_format = function(d) {
+      var n = this;
+      var c = isNaN(d = Math.abs(d)) ? 2 : d;
+      var s = n < 0 ? "-" : "";
+      var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+      return s + (j ? i.substr(0, j) + ',' : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + ',') + (c ? '.' + Math.abs(n - i).toFixed(c).slice(2) : "");
+    }
+    String.prototype.number_format2 = function(d) {
+      var n = this;
+      var c = isNaN(d = Math.abs(d)) ? 2 : d;
+      var s = n < 0 ? "-" : "";
+      var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+      return s + (j ? i.substr(0, j) + '.' : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + '.') + (c ? ',' + Math.abs(n - i).toFixed(c).slice(2) : "");
+    }
+    String.prototype.number_format2 = function(d) {
+      var n = parseFloat(this);
+      var c = isNaN(d = Math.abs(d)) ? 2 : d;
+      var s = n < 0 ? "-" : "";
+      var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+      return s + (j ? i.substr(0, j) + '.' : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + '.') + (c ? ',' + Math.abs(n - i).toFixed(c).slice(2) : "");
+    }
 
-              var calculated_total_sum_qty = 0;
-              $("#myTablePK .classQty").each(function (){
-                  var get_textbox_value = $(this).val().replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(",", ".");
-                  calculated_total_sum_qty += parseFloat(get_textbox_value);    
-              });
+    $("#qty" + a).keyup(function() {
+      var qty_show = parseNumber(document.getElementById("qty" + a).value);
+      var harga_show = parseNumber(document.getElementById("harga" + a).value);
+      var getqty = parseNumber(document.getElementById("totalhasil3").value);
+      var calculate = qty_show + getqty;
 
-              var calculated_total_sum_total_harga = 0;
-              $("#myTablePK .classTotal").each(function (){
-                  var get_textbox_value = $(this).val().replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(",", ".");
-                  calculated_total_sum_total_harga += parseFloat(get_textbox_value);    
-              });
-              
-              var calculated_total_sum_total_biaya_kurs = 0;
-              $("#myTablePK .classCalculateBiayaKursShow").each(function (){
-                  var get_textbox_value = $(this).val().replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(",", ".");
-                  calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);    
-              });
+      var result_real = qty_show * harga_show;
+      let text = result_real.toString().number_format2();
+      document.getElementById("total_show" + a).value = text;
+      document.getElementById("total" + a).value = result_real;
 
-              document.getElementById("totalshowqty").value = calculated_total_sum_qty.toString().number_format2();
-              document.getElementById("totalshowTH").value = calculated_total_sum_total_harga.toString().number_format2();
-              document.getElementById("totalshowCBK").value = calculated_total_sum_total_biaya_kurs.toString().number_format2();
-            // }
-
-          });       
-      
-          $("#harga" + a).keyup(function(){
-            var qty   = Number(document.getElementById("qty" + a).value);
-            var harga = document.getElementById("harga" + a).value;
-            var harga = harga.replace(".", "");
-
-            var result_real   = qty * harga;
-            let text          = result_real.toString();
-            document.getElementById("total_show" + a).value = text.number_format2();
-            document.getElementById("total" + a).value = result_real;
-
-            var total       = result_real;
-            var biayakurs   = document.getElementById("biayakurs" + a).value;
-            console.log(biayakurs);
-            var text3        = biayakurs.replace('.', '');
-            var text4       = text3.replace(',', '.');
-            var calculatebiayakurs = total * text4;
-            let textstring         = calculatebiayakurs.toString();
-            document.getElementById("calculatebiayakursshow" + a).value = textstring.number_format2();
-            document.getElementById("calculatebiayakurs" + a).value = calculatebiayakurs;
-
-            var calculated_total_sum_harga = 0;
-              $("#myTablePK .classHarga").each(function (){
-                  var get_textbox_value = $(this).val().replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(",", ".");
-                  calculated_total_sum_harga += parseFloat(get_textbox_value);    
-            });
-
-            var calculated_total_sum_total_harga = 0;
-                  $("#myTablePK .classTotal").each(function (){
-                      var get_textbox_value = $(this).val().replace(".", "");
-                      var get_textbox_value = get_textbox_value.replace(".", "");
-                      var get_textbox_value = get_textbox_value.replace(".", "");
-                      var get_textbox_value = get_textbox_value.replace(",", ".");
-                      calculated_total_sum_total_harga += parseFloat(get_textbox_value);    
-            });
-
-            var calculated_total_sum_total_biaya_kurs = 0;
-              $("#myTablePK .classCalculateBiayaKursShow").each(function (){
-                  var get_textbox_value = $(this).val().replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(".", "");
-                  var get_textbox_value = get_textbox_value.replace(",", ".");
-                  calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);    
-              });
-
-            document.getElementById("totalshowTH").value = calculated_total_sum_total_harga.toString().number_format2();
-            document.getElementById("totalshowharga").value = calculated_total_sum_harga.toString().number_format2();
-            document.getElementById("totalshowCBK").value = calculated_total_sum_total_biaya_kurs.toString().number_format2();
-            
-          });  
-
-          $("#biayakurs" + a).keyup(function(){
-
-            var total       = Number(document.getElementById("total" + a).value);
-            var biayakurs   = document.getElementById("biayakurs" + a).value;
-            var text        = biayakurs.replace('.', '');
-            var text2       = text.replace(',', '.');
-            var calculatebiayakurs = total * text2;
-            let textstring         = calculatebiayakurs.toString();
-            document.getElementById("calculatebiayakursshow" + a).value = textstring.number_format2();
-            document.getElementById("calculatebiayakurs" + a).value = calculatebiayakurs;
-
-            var calculated_total_sum_biaya_kurs = 0;
-            $("#myTablePK .classBiayaKurs").each(function (){
-                var get_textbox_value = $(this).val().replace(".", "");
-                var get_textbox_value = get_textbox_value.replace(".", "");
-                var get_textbox_value = get_textbox_value.replace(".", "");
-                var get_textbox_value = get_textbox_value.replace(",", ".");
-                calculated_total_sum_biaya_kurs += parseFloat(get_textbox_value);    
-            });
-
-            var calculated_total_sum_total_biaya_kurs = 0;
-            $("#myTablePK .classCalculateBiayaKursShow").each(function (){
-                var get_textbox_value = $(this).val().replace(".", "");
-                var get_textbox_value = get_textbox_value.replace(".", "");
-                var get_textbox_value = get_textbox_value.replace(".", "");
-                var get_textbox_value = get_textbox_value.replace(",", ".");
-                calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);    
-            });
-
-            document.getElementById("totalshowBK").value = calculated_total_sum_biaya_kurs.toString().number_format2();
-            document.getElementById("totalshowCBK").value = calculated_total_sum_total_biaya_kurs.toString().number_format2();
-
-          });
-
-      // $(".selectX").select2({
-      //   placeholder: "Select",
-      //   allowClear: true
-      // })
+      var total = result_real;
+      var biayakurs = document.getElementById("biayakurs" + a).value;
+      var text3 = biayakurs.replace('.', '');
+      var text4 = text3.replace(',', '.');
+      var calculatebiayakurs = total * text4;
+      let textstring = calculatebiayakurs.toString();
+      document.getElementById("calculatebiayakursshow" + a).value = textstring.number_format2();
+      document.getElementById("calculatebiayakurs" + a).value = calculatebiayakurs;
 
 
-      $("#terminal").change(function (){
-          var url = "<?php echo base_url('PemasukanRBB/add_ajax_tank');?>/"+$(this).val();
-          $('#tank').load(url);
-          return false;
-      });
+    var calculated_total_sum_qty = 0;
+    $("#myTablePK .classQty").each(function() {
+      var get_textbox_value = $(this).val().replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(",", ".");
+      calculated_total_sum_qty += parseFloat(get_textbox_value);
+    });
 
-      for(var i=0;  i<=table.rows.length; i++) {
-        document.getElementsByClassName("classQty")[i].name = "qty"+i;
-        document.getElementsByClassName("classTank")[i].name = "tank"+i;
-        document.getElementsByClassName("classHarga")[i].name = "harga"+i;
-        document.getElementsByClassName("classCur")[i].name = "cur"+i;
-        document.getElementsByClassName("classTotal")[i].name = "total"+i;
-        document.getElementsByClassName("classBiayaKurs")[i].name = "biayakurs"+i;
-        document.getElementsByClassName("classCalculateBiayaKurs")[i].name = "calculatebiayakurs"+i;
-      }
+    var calculated_total_sum_total_harga = 0;
+    $("#myTablePK .classTotal").each(function() {
+      var get_textbox_value = $(this).val().replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(",", ".");
+      calculated_total_sum_total_harga += parseFloat(get_textbox_value);
+    });
+
+    var calculated_total_sum_total_biaya_kurs = 0;
+    $("#myTablePK .classCalculateBiayaKursShow").each(function() {
+      var get_textbox_value = $(this).val().replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(",", ".");
+      calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
+    });
+
+    document.getElementById("totalshowqty").value = calculated_total_sum_qty.toString().number_format2();
+    document.getElementById("totalshowTH").value = calculated_total_sum_total_harga.toString().number_format2();
+    document.getElementById("totalshowCBK").value = calculated_total_sum_total_biaya_kurs.toString().number_format2();
+    // }
+
+  });
+
+  $("#harga" + a).keyup(function() {
+    var qty = parseNumber(document.getElementById("qty" + a).value);
+    var harga = parseNumber(document.getElementById("harga" + a).value);
+
+    var result_real = qty * harga;
+    let text = formatNumber(result_real);
+    document.getElementById("total_show" + a).value = text;
+    document.getElementById("total" + a).value = result_real;
+
+    var total = result_real;
+    var biayakurs = parseNumber(document.getElementById("biayakurs" + a).value);
+
+    var calculatebiayakurs = total * biayakurs;
+    let textstring = formatNumber(calculatebiayakurs);
+
+    document.getElementById("calculatebiayakursshow" + a).value = text;
+    document.getElementById("calculatebiayakurs" + a).value = calculatebiayakurs;
+
+
+  var calculated_total_sum_harga = 0;
+  $("#myTablePK .classHarga").each(function() {
+    var get_textbox_value = $(this).val().replace(".", "");
+    var get_textbox_value = get_textbox_value.replace(",", ".");
+    calculated_total_sum_harga += parseFloat(get_textbox_value);
+  });
+
+  var calculated_total_sum_total_harga = 0;
+  $("#myTablePK .classTotal").each(function() {
+    var get_textbox_value = $(this).val().replace(".", "");
+    var get_textbox_value = get_textbox_value.replace(".", "");
+    var get_textbox_value = get_textbox_value.replace(".", "");
+    var get_textbox_value = get_textbox_value.replace(",", ".");
+    calculated_total_sum_total_harga += parseFloat(get_textbox_value);
+  });
+
+  var calculated_total_sum_total_biaya_kurs = 0;
+  $("#myTablePK .classCalculateBiayaKursShow").each(function() {
+    var get_textbox_value = $(this).val().replace(".", "");
+    var get_textbox_value = get_textbox_value.replace(".", "");
+    var get_textbox_value = get_textbox_value.replace(".", "");
+    var get_textbox_value = get_textbox_value.replace(",", ".");
+    calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
+  });
+
+  document.getElementById("totalshowTH").value = calculated_total_sum_total_harga.toString().number_format2();
+  document.getElementById("totalshowharga").value = calculated_total_sum_harga.toString().number_format2();
+  document.getElementById("totalshowCBK").value = calculated_total_sum_total_biaya_kurs.toString().number_format2();
+
+  });
+
+  $("#biayakurs" + a).keyup(function() {
+
+    var total = Number(document.getElementById("total" + a).value);
+    var biayakurs = document.getElementById("biayakurs" + a).value;
+    var text = biayakurs.replace('.', '');
+    var text2 = text.replace(',', '.');
+    var calculatebiayakurs = total * text2;
+    let textstring = calculatebiayakurs.toString();
+    document.getElementById("calculatebiayakursshow" + a).value = textstring.number_format2();
+    document.getElementById("calculatebiayakurs" + a).value = calculatebiayakurs;
+
+    var calculated_total_sum_biaya_kurs = 0;
+    $("#myTablePK .classBiayaKurs").each(function() {
+      var get_textbox_value = $(this).val().replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(",", ".");
+      calculated_total_sum_biaya_kurs += parseFloat(get_textbox_value);
+    });
+
+    var calculated_total_sum_total_biaya_kurs = 0;
+    $("#myTablePK .classCalculateBiayaKursShow").each(function() {
+      var get_textbox_value = $(this).val().replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(".", "");
+      var get_textbox_value = get_textbox_value.replace(",", ".");
+      calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
+    });
+
+    document.getElementById("totalshowBK").value = calculated_total_sum_biaya_kurs.toString().number_format2();
+    document.getElementById("totalshowCBK").value = calculated_total_sum_total_biaya_kurs.toString().number_format2();
+
+  });
+
+  // $(".selectX").select2({
+  //   placeholder: "Select",
+  //   allowClear: true
+  // })
+
+
+  $("#terminal").change(function() {
+    var url = "<?php echo base_url('PemasukanRBB/add_ajax_tank'); ?>/" + $(this).val();
+    $('#tank').load(url);
+    return false;
+  });
+
+  for (var i = 0; i <= table.rows.length; i++) {
+    document.getElementsByClassName("classQty")[i].name = "qty" + i;
+    document.getElementsByClassName("classTank")[i].name = "tank" + i;
+    document.getElementsByClassName("classHarga")[i].name = "harga" + i;
+    document.getElementsByClassName("classCur")[i].name = "cur" + i;
+    document.getElementsByClassName("classTotal")[i].name = "total" + i;
+    document.getElementsByClassName("classBiayaKurs")[i].name = "biayakurs" + i;
+    document.getElementsByClassName("classCalculateBiayaKurs")[i].name = "calculatebiayakurs" + i;
+  }
 
 
 
@@ -587,37 +675,37 @@
     var table = document.getElementById("myTablePK");
     var result = confirm("Are you sure to delete ?");
 
-    $("#myTablePK .classQty").each(function (){
-        var get_textbox_value = $(this).val();
-          if($.isNumeric(get_textbox_value)) {
-          var getqty = Number(document.getElementById("totalhasil3").value);
-          var calculate = getqty - parseFloat(get_textbox_value);
-          document.getElementById("totalhasil3").value = calculate;
+    $("#myTablePK .classQty").each(function() {
+      var get_textbox_value = $(this).val();
+      if ($.isNumeric(get_textbox_value)) {
+        var getqty = Number(document.getElementById("totalhasil3").value);
+        var calculate = getqty - parseFloat(get_textbox_value);
+        document.getElementById("totalhasil3").value = calculate;
 
-        }                  
-      });
-
-    if(row.parentNode.removeChild(row)){
-      for(var a=0; a<=table.rows.length; a++) {
-        $('#dataLimitPK').empty();
-        $('<input type="hidden" name="limit_pk" value="'+ a +'" >').appendTo('#dataLimitPK');
       }
-      for(var i=0; i<=table.rows.length; i++) {
-        document.getElementsByClassName("classQty")[i].name = "qty"+i;
-        document.getElementsByClassName("classTank")[i].name = "tank"+i;
-        document.getElementsByClassName("classHarga")[i].name = "harga"+i;
-        document.getElementsByClassName("classCur")[i].name = "cur"+i;
-        document.getElementsByClassName("classTotal")[i].name = "total"+i;
-        document.getElementsByClassName("classBiayaKurs")[i].name = "biayakurs"+i;
-        document.getElementsByClassName("classCalculateBiayaKurs")[i].name = "calculatebiayakurs"+i;
+    });
+
+    if (row.parentNode.removeChild(row)) {
+      for (var a = 0; a <= table.rows.length; a++) {
+        $('#dataLimitPK').empty();
+        $('<input type="hidden" name="limit_pk" value="' + a + '" >').appendTo('#dataLimitPK');
+      }
+      for (var i = 0; i <= table.rows.length; i++) {
+        document.getElementsByClassName("classQty")[i].name = "qty" + i;
+        document.getElementsByClassName("classTank")[i].name = "tank" + i;
+        document.getElementsByClassName("classHarga")[i].name = "harga" + i;
+        document.getElementsByClassName("classCur")[i].name = "cur" + i;
+        document.getElementsByClassName("classTotal")[i].name = "total" + i;
+        document.getElementsByClassName("classBiayaKurs")[i].name = "biayakurs" + i;
+        document.getElementsByClassName("classCalculateBiayaKurs")[i].name = "calculatebiayakurs" + i;
       }
     }
   }
 
   function convertRupiah(angka, prefix) {
     var number_string = angka.replace(/[^,\d]/g, "").toString(),
-      split  = number_string.split(","),
-      sisa   = split[0].length % 3,
+      split = number_string.split(","),
+      sisa = split[0].length % 3,
       rupiah = split[0].substr(0, sisa),
       ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
@@ -631,92 +719,91 @@
   }
 
 
-function validasi(){
-          var KeteranganBarang = $("#KeteranganBarang").val();
-          $.ajax({
-          type: 'POST',
-          url: "<?php echo base_URL('PemasukanRBB/VlidasiData');?>",
-          data: "KeteranganBarang="+KeteranganBarang,
-          cache: false,
-          success: function(data){
-          var str    = data;
-          var ckhsl  = str.replace('"', '');
-          var rckhsl = ckhsl.replace('"', '');
-          document.getElementById("sat").value = rckhsl;
-              }
-        });
+  function validasi() {
+    var KeteranganBarang = $("#KeteranganBarang").val();
+    $.ajax({
+      type: 'POST',
+      url: "<?php echo base_URL('PemasukanRBB/VlidasiData'); ?>",
+      data: "KeteranganBarang=" + KeteranganBarang,
+      cache: false,
+      success: function(data) {
+        var str = data;
+        var ckhsl = str.replace('"', '');
+        var rckhsl = ckhsl.replace('"', '');
+        document.getElementById("sat").value = rckhsl;
       }
+    });
+  }
 
-        String.prototype.number_format = function(d) {
-            var n = this;
-            var c = isNaN(d = Math.abs(d)) ? 2 : d;
-            var s = n < 0 ? "-" : "";
-            var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
-            return s + (j ? i.substr(0, j) + ',' : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + ',') + (c ? '.' + Math.abs(n - i).toFixed(c).slice(2) : "");
-        }
+  String.prototype.number_format = function(d) {
+    var n = this;
+    var c = isNaN(d = Math.abs(d)) ? 2 : d;
+    var s = n < 0 ? "-" : "";
+    var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+      j = (j = i.length) > 3 ? j % 3 : 0;
+    return s + (j ? i.substr(0, j) + ',' : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + ',') + (c ? '.' + Math.abs(n - i).toFixed(c).slice(2) : "");
+  }
 
-        var qty_real            = document.getElementById('qty_real').value;
-        var harga_satuan_real   = document.getElementById('harga_satuan_real');
-        var hasil_real          = document.getElementById('hasil_real');
-        var hasil_real_show     = document.getElementById('hasil_real_show');
-        harga_satuan_real.addEventListener('keyup', function(e)
-        {
-            var result_real      = qty_real * this.value;
-            let text = result_real.toString();
-            hasil_real.value = result_real;
-            hasil_real_show.value = text.number_format();
-            // hasil_real.value = formatRupiah(result_real);
-        });
-        
-        /* Dengan Rupiah */
-        // var dengan_rupiah = document.getElementById('dengan-rupiah');
-        // dengan_rupiah.addEventListener('keyup', function(e)
-        // {
-        //     dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
-        // });
-        
-        // /* Fungsi */
-        // function formatRupiah(angka, prefix)
-        // {
-        //      var number_string = angka.replace(/[^,\d]/g, '').toString(),
-        //          split    = number_string.split(','),
-        //          sisa     = split[0].length % 3,
-        //          rupiah     = split[0].substr(0, sisa),
-        //          ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
-                
-        //      if (ribuan) {
-        //          separator = sisa ? '.' : '';
-        //          rupiah += separator + ribuan.join('.');
-        //      }
-            
-        //      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        //      return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-        // }
-        $().ready(function() {
+  var qty_real = document.getElementById('qty_real').value;
+  var harga_satuan_real = document.getElementById('harga_satuan_real');
+  var hasil_real = document.getElementById('hasil_real');
+  var hasil_real_show = document.getElementById('hasil_real_show');
+  harga_satuan_real.addEventListener('keyup', function(e) {
+    var result_real = qty_real * this.value;
+    let text = result_real.toString();
+    hasil_real.value = result_real;
+    hasil_real_show.value = text.number_format();
+    // hasil_real.value = formatRupiah(result_real);
+  });
 
-          $("tgl_dokumen_pabean").on("change", function() {
-                alert("a");
-              this.setAttribute(
-                  "data-date",
-                  moment(this.value, "YYYY-MM-DD")
-                  .format( this.getAttribute("data-date-format") )
-              )
-          }).trigger("change")
-        })  
+  /* Dengan Rupiah */
+  // var dengan_rupiah = document.getElementById('dengan-rupiah');
+  // dengan_rupiah.addEventListener('keyup', function(e)
+  // {
+  //     dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
+  // });
 
-        function formatNumber(num) {
+  // /* Fungsi */
+  // function formatRupiah(angka, prefix)
+  // {
+  //      var number_string = angka.replace(/[^,\d]/g, '').toString(),
+  //          split    = number_string.split(','),
+  //          sisa     = split[0].length % 3,
+  //          rupiah     = split[0].substr(0, sisa),
+  //          ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
+
+  //      if (ribuan) {
+  //          separator = sisa ? '.' : '';
+  //          rupiah += separator + ribuan.join('.');
+  //      }
+
+  //      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+  //      return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+  // }
+  $().ready(function() {
+
+    $("tgl_dokumen_pabean").on("change", function() {
+      alert("a");
+      this.setAttribute(
+        "data-date",
+        moment(this.value, "YYYY-MM-DD")
+        .format(this.getAttribute("data-date-format"))
+      )
+    }).trigger("change")
+  })
+
+  function formatNumber(num) {
     var number_string = num.replace(/[^,\d]/g, "").toString();
-    var split  = number_string.split(",");
-    var sisa   = split[0].length % 3;
+    var split = number_string.split(",");
+    var sisa = split[0].length % 3;
     var rupiah = split[0].substr(0, sisa);
     var ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
     if (ribuan) {
-        rupiah += (sisa ? "." : "") + ribuan.join(".");
+      rupiah += (sisa ? "." : "") + ribuan.join(".");
     }
 
     rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
     return rupiah;
-}
-
+  }
 </script>

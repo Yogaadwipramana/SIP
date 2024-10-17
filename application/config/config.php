@@ -24,7 +24,7 @@ date_default_timezone_set('Asia/Jakarta');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://app.asinusa.co.id/sip/';
+$config['base_url'] = '';
  
 //$config['base_url'] = 'http://smart.asinusa.co.id';
 
@@ -88,7 +88,7 @@ $config['language']	= 'english';
 |--------------------------------------------------------------------------
 |
 | This determines which character set is used by default in various methods
-| that require a character set to be provided.
+| that require a cqharacter set to be provided.
 |
 | See http://php.net/htmlspecialchars for a list of supported charsets.
 |

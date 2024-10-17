@@ -144,7 +144,7 @@
                   </div>
                   <label class="col-sm-2 control-label" style="font-family: Arial;">Tanggal Dokumen : </label>
                   <div class="col-sm-4">
-                    <input type="date" id="tgl_dokumen_pabean" name="tgl_dokumen_pabean" class="form-control box-shadow" placeholder="Tanggal Dokumen" value="<?= $data_estimasi->tgl_dokumen_pabean?>">
+                    <input type="date" id="tgl_dokumen_pabean" name="tgl_dokumen_pabean" class="form-control box-shadow" placeholder="Tanggal Dokumen" value="<?= $data_estimasi->tgl_dokumen_pabean ?>">
                   </div>
                 </div>
 
@@ -166,8 +166,8 @@
                   </div>
                   <label class="col-sm-2 control-label">Negara Asal Barang : </label>
                   <div class="col-sm-4">
-                    <input type="text" autocomplete="off" placeholder="Negara Asal"  name="negara_asal" class="form-control" value="<?= $data_estimasi->negara_tujuan ?>" required="required">
-                    
+                    <input type="text" autocomplete="off" placeholder="Negara Asal" name="negara_asal" class="form-control" value="<?= $data_estimasi->negara_tujuan ?>" required="required">
+
                   </div>
                 </div>
                 <?php if ($data_estimasi->file != "") { ?>
@@ -306,17 +306,62 @@
                             <input type="text" name="terminal" style="display: none;" value="<?= $terminal2->id_terminal; ?>"> -->
                       <tr style="text-align: center;">
                         <td>
-                          <select data-plugin="select2" id="tank_real<?= $no ?>" name="tank_real<?= $no ?>" class="form-control">
-                            <option value="">Pilih</option>
-                            <?php
-                            foreach ($tank2 as $value) {
-                            ?>
-                              <option value="<?php echo $value->tank; ?>" <?= ($value_result->terminal_tank == $value->tank) ? 'selected' : ''; ?>><?php echo $value->nama_tangki_alias; ?></option>
+                          <select data-plugin="select2" id="tank_real<?= $no ?>" name="tank_real<?= $no ?>" class="form-control classTank">
+                            <option value="0">Pilih</option>
+                            <?php foreach ($tank2 as $value) { ?>
+                              <option value="<?php echo $value->tank; ?>" <?= ($value_result->terminal_tank == $value->tank) ? 'selected' : ''; ?>>
+                                <?php echo $value->nama_tangki_alias; ?>
+                              </option>
                             <?php } ?>
-
                           </select>
                         </td>
-                        <td><input type="text" autocomplete="off" id="qty_real<?= $no ?>" name="qty_real<?= $no ?>" class="form-control classQty" value="<?= number_format($value_result->jumlah, 0, ".", ""); ?>" onkeyup="myFunctionKeyup(<?= $no ?>)"><span style="color:red;">Selisih qty :<p id="selisihqty<?= $no ?>">0</p> </span></td>
+
+                        <script>
+                          $(document).ready(function() {
+                            // Inisialisasi Select2
+                            $('.classTank').select2();
+
+                            // Menambahkan event listener untuk dropdown
+                            $('.classTank').change(function() {
+                              var selectedTank = $(this).val();
+                              var isTankExists = false;
+                              var currentId = $(this).attr('id');
+
+                              // Mengecek apakah tank yang dipilih bukan "Pilih"
+                              if (selectedTank !== "0") {
+                                $(".classTank").each(function() {
+                                  // Hanya cek jika id dropdown berbeda dan tank yang dipilih tidak bernilai 0
+                                  if ($(this).val() === selectedTank && $(this).attr('id') !== currentId) {
+                                    isTankExists = true; // Ada duplikasi
+                                  }
+                                });
+                              }
+
+                              // Jika tank yang dipilih sudah ada
+                              if (isTankExists) {
+                                alert("Tank tidak boleh sama dengan yang sudah ada.");
+                                // Kembali ke opsi default "Pilih"
+                                $(this).val("0").trigger('change'); // Reset ke opsi "Pilih" dan perbarui tampilan Select2
+                              }
+                            });
+                          });
+                        </script>
+
+
+
+
+                        <td>
+                          <input type="text"
+                            autocomplete="off"
+                            id="qty_real<?= $no ?>"
+                            name="qty_real<?= $no ?>"
+                            class="form-control classQty"
+                            value="<?= number_format($value_result->jumlah, 0, ".", ""); ?>"
+                            onkeyup="myFunctionKeyup(<?= $no ?>)"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" required="required">
+                          <span style="color:red;">Selisih qty :<p id="selisihqty<?= $no ?>">0</p> </span>
+                        </td>
+
                         <td>
                           <select data-plugin="select2" id="kurs_real<?= $no ?>" name="kurs_real<?= $no ?>" class="form-control classCur">
                             <option value="">Pilih</option>
@@ -328,11 +373,31 @@
                             <?php } ?>
                           </select>
                         </td>
-                        <td><input type="text" id="harga_satuan_real<?= $no ?>" name="harga_satuan_real<?= $no ?>" class="form-control classHarga" value="<?= number_format($value_result->harga, 0, ",", "."); ?>" onkeyup="myFunctionKeyup(<?= $no ?>)"></td>
+                        <td>
+                          <input type="text"
+                            id="harga_satuan_real<?= $no ?>"
+                            name="harga_satuan_real<?= $no ?>"
+                            class="form-control classHarga"
+                            value="<?= number_format($value_result->harga, 0, ",", "."); ?>"
+                            onkeyup="myFunctionKeyup(<?= $no ?>)"
+                            oninput="this.value = this.value.replace(/[^0-9.,]/g, '');" required="required">
+                        </td>
+
                         <td><input type="text" autocomplete="off" id="hasil_real_show<?= $no ?>" value="<?= number_format($value_result->nilai_barang, 0, ",", "."); ?>" name="hasil_real_show<?= $no ?>" class="form-control classTotalHarga" readonly="readonly"><input type="text" autocomplete="off" id="hasil_real<?= $no ?>" name="hasil_real<?= $no ?>" value="<?= $value_result->nilai_barang ?>" style="display: none;"></td>
-                        <td><input type="text" autocomplete="off" id="biaya_kurs_real<?= $no ?>" value="<?= number_format($value_result->biaya_kurs, 2, ",", "."); ?>" name="biaya_kurs_real<?= $no ?>" class="form-control classBiayaKurs" onkeyup="myFunctionKeyupKurs(<?= $no ?>)"><a href="https://www.bi.go.id/id/statistik/informasi-kurs/transaksi-bi/default.aspx" target="_blank"> Cek Nilai Biaya Kurs</a></td>
+                        <td>
+                          <input type="text"
+                            autocomplete="off"
+                            id="biaya_kurs_real<?= $no ?>"
+                            value="<?= number_format($value_result->biaya_kurs, 2, ",", "."); ?>"
+                            name="biaya_kurs_real<?= $no ?>"
+                            class="form-control classBiayaKurs"
+                            onkeyup="myFunctionKeyupKurs(<?= $no ?>)"
+                            oninput="this.value = this.value.replace(/[^0-9.,]/g, '').replace(/(,.*?),(.*,)?/g, '$1');" required="required">
+                          <a href="https://www.bi.go.id/id/statistik/informasi-kurs/transaksi-bi/default.aspx" target="_blank">Cek Nilai Biaya Kurs</a>
+                        </td>
+
                         <td><input type="text" autocomplete="off" id="total_calculate<?= $no ?>" value="<?= number_format($value_result->total_calculate, 0, ",", "."); ?>" name="total_calculate<?= $no ?>" class="form-control classTotalBiayaKurs" readonly="readonly"><input type="text" autocomplete="off" id="hasil_get<?= $no ?>" name="hasil_get<?= $no ?>" value="<?= $value_result->nilai_barang ?>" class="form-control" style="display: none;" value=""></td>
-                       
+
                       </tr>
                       <input style="display: none;" type="text" value="<?= $no++ ?>">
                     <?php
@@ -343,12 +408,12 @@
                   <tfoot>
                     <tr style="text-align: center;">
                       <td class="JudulHeadr" style="padding-left: 5px; width: 14%;">Total</td>
-                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowqty" class="form-control" value="<?= $sumTotalLoopQty ?>"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowqty" class="form-control" value="<?= $sumTotalLoopQty ?>" required="required"></td>
                       <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"></td>
                       <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowharga" class="form-control" value="<?= number_format($sumTotalLoopHarga, 2, ",", "."); ?>" style="display:none;"></td>
-                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowTH" class="form-control" value="<?= number_format($sumTotalLoopTH, 2, ",", "."); ?>"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowTH" class="form-control" value="<?= number_format($sumTotalLoopTH, 2, ",", "."); ?>"required="required"></td>
                       <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowBK" class="form-control" value="<?= number_format($sumTotalLoopBK, 2, ",", "."); ?>" style="display:none;"></td>
-                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowCBK" class="form-control" value="<?= number_format($sumTotalLoopCBK, 2, ",", "."); ?>"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowCBK" class="form-control" value="<?= number_format($sumTotalLoopCBK, 2, ",", "."); ?>"required="required"></td>
                       <!--  <td class="JudulHeadr" style="padding-left: 5px; width: 10%; border-bottom: 1px solid black;">Bulan</td>
                         <td class="JudulHeadr" style="padding-left: 5px; width: 10%; border-bottom: 1px solid black;">Tahun</td> -->
                     </tr>
@@ -377,193 +442,199 @@
 <script src="<?php echo base_URL() ?>jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
-// Fungsi untuk memformat angka dengan pemisah ribuan dan desimal
-function formatNumber(num) {
-            let parts = num.toString().split('.');
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Memisahkan ribuan dengan titik
-            return parts.join(',');
-        }
+  // Fungsi untuk memformat angka dengan pemisah ribuan dan desimal
+  function formatNumber(num) {
+    let parts = num.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Memisahkan ribuan dengan titik
+    return parts.join(',');
+  }
 
-        // Fungsi untuk menghapus format ribuan dan mengganti koma desimal dengan titik
-        function removeFormat(num) {
-            return num.replace(/\./g, '').replace(/,/g, '.');
-        }
+  // Fungsi untuk menghapus format dan mengonversi ke angka
+  function removeFormat(value) {
+    // Mengganti koma dengan titik dan menghapus semua titik
+    return value.replace(/\./g, '').replace(/,/g, '.');
+  }
 
-        // Fungsi untuk menangani event keyup
-        function myFunctionKeyup(rowid) {
-            var qty_real = parseInt(document.getElementById("qty_real" + rowid).value, 10);
-            var qty_get = parseInt(document.getElementById("qty_get" + rowid).value, 10);
-            var harga_satuan_real = parseFloat(removeFormat(document.getElementById("harga_satuan_real" + rowid).value));
-            var biaya_kurs_real = parseInt(document.getElementById("biaya_kurs_real" + rowid).value, 10);
+  // Fungsi untuk menangani event keyup
+  function myFunctionKeyup(rowid) {
+    var qty_real = parseInt(document.getElementById("qty_real" + rowid).value, 10);
+    var qty_get = parseInt(document.getElementById("qty_get" + rowid).value, 10);
+    var harga_satuan_real = parseFloat(removeFormat(document.getElementById("harga_satuan_real" + rowid).value));
+    var biaya_kurs_real = parseInt(document.getElementById("biaya_kurs_real" + rowid).value, 10);
 
-            var hasil_real = document.getElementById("hasil_real" + rowid);
-            var hasil_real_show = document.getElementById("hasil_real_show" + rowid);
-            var result_real = qty_real * harga_satuan_real;
-            var selisih = qty_get - qty_real;
-            hasilcalculate = result_real * biaya_kurs_real;
-            console.log(hasilcalculate);
+    var hasil_real = document.getElementById("hasil_real" + rowid);
+    var hasil_real_show = document.getElementById("hasil_real_show" + rowid);
+    var result_real = qty_real * harga_satuan_real;
+    var selisih = qty_get - qty_real;
+    var hasilcalculate = result_real * biaya_kurs_real;
 
-            hasil_real.value = result_real;
-            hasil_real_show.value = formatNumber(result_real.toFixed(2));
-            document.getElementById("hasil_get" + rowid).value = hasilcalculate;
-            document.getElementById("total_calculate" + rowid).value = formatNumber(hasilcalculate.toFixed(2));
+    // Menampilkan hasil
+    hasil_real.value = result_real;
+    hasil_real_show.value = formatNumber(result_real.toFixed(2));
+    document.getElementById("hasil_get" + rowid).value = hasilcalculate;
+    document.getElementById("total_calculate" + rowid).value = formatNumber(hasilcalculate.toFixed(2));
 
-            // Kode untuk perhitungan total lainnya
-            var calculated_total_sum_qty = 0;
-            $("#myTablePK .classQty").each(function() {
-                var get_textbox_value = removeFormat($(this).val());
-                calculated_total_sum_qty += parseFloat(get_textbox_value);
-            });
+  // Fungsi untuk memformat angka menjadi string dengan pemisah ribuan
+  function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".").replace('.', ',');
+  }
 
-            var calculated_total_sum_harga = 0;
-            $("#myTablePK .classHarga").each(function() {
-                var get_textbox_value = removeFormat($(this).val());
-                calculated_total_sum_harga += parseFloat(get_textbox_value);
-            });
+  // Kode untuk perhitungan total lainnya
+  var calculated_total_sum_qty = 0;
+  $("#myTablePK .classQty").each(function() {
+    var get_textbox_value = removeFormat($(this).val());
+    calculated_total_sum_qty += parseFloat(get_textbox_value);
+  });
 
-            var calculated_total_sum_total_harga = 0;
-            $("#myTablePK .classTotalHarga").each(function() {
-                var get_textbox_value = removeFormat($(this).val());
-                calculated_total_sum_total_harga += parseFloat(get_textbox_value);
-            });
+  var calculated_total_sum_harga = 0;
+  $("#myTablePK .classHarga").each(function() {
+    var get_textbox_value = removeFormat($(this).val());
+    calculated_total_sum_harga += parseFloat(get_textbox_value);
+  });
 
-            var calculated_total_sum_biaya_kurs = 0;
-            $("#myTablePK .classBiayaKurs").each(function() {
-                var get_textbox_value = removeFormat($(this).val());
-                calculated_total_sum_biaya_kurs += parseFloat(get_textbox_value);
-            });
+  var calculated_total_sum_total_harga = 0;
+  $("#myTablePK .classTotalHarga").each(function() {
+    var get_textbox_value = removeFormat($(this).val());
+    calculated_total_sum_total_harga += parseFloat(get_textbox_value);
+  });
 
-            var calculated_total_sum_total_biaya_kurs = 0;
-            $("#myTablePK .classTotalBiayaKurs").each(function() {
-                var get_textbox_value = removeFormat($(this).val());
-                calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
-            });
+  var calculated_total_sum_biaya_kurs = 0;
+  $("#myTablePK .classBiayaKurs").each(function() {
+    var get_textbox_value = removeFormat($(this).val());
+    calculated_total_sum_biaya_kurs += parseFloat(get_textbox_value);
+  });
 
-            document.getElementById("selisihqty" + rowid).innerHTML = selisih;
-            document.getElementById("totalshowqty").value = formatNumber(calculated_total_sum_qty.toFixed(2));
-            document.getElementById("totalshowharga").value = formatNumber(calculated_total_sum_harga.toFixed(2));
-            document.getElementById("totalshowTH").value = formatNumber(calculated_total_sum_total_harga.toFixed(2));
-            document.getElementById("totalshowBK").value = formatNumber(calculated_total_sum_biaya_kurs.toFixed(2));
-            document.getElementById("totalshowCBK").value = formatNumber(calculated_total_sum_total_biaya_kurs.toFixed(2));
-        }
+  var calculated_total_sum_total_biaya_kurs = 0;
+  $("#myTablePK .classTotalBiayaKurs").each(function() {
+    var get_textbox_value = removeFormat($(this).val());
+    calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
+  });
 
-        // Fungsi untuk menangani event keyup untuk biaya kurs
-        // function myFunctionKeyupKurs(rowid) {
-        //     // Implementasi fungsi yang sesuai
-        // }
+  document.getElementById("selisihqty" + rowid).innerHTML = selisih;
+  document.getElementById("totalshowqty").value = formatNumber(calculated_total_sum_qty.toFixed(2));
+  document.getElementById("totalshowharga").value = formatNumber(calculated_total_sum_harga.toFixed(2));
+  document.getElementById("totalshowTH").value = formatNumber(calculated_total_sum_total_harga.toFixed(2));
+  document.getElementById("totalshowBK").value = formatNumber(calculated_total_sum_biaya_kurs.toFixed(2));
+  document.getElementById("totalshowCBK").value = formatNumber(calculated_total_sum_total_biaya_kurs.toFixed(2));
+  }
 
-        // Fungsi untuk mengonfirmasi alert sebelum submit form
-        function approveAlert(event) {
-            event.preventDefault();
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Apakah Anda yakin ingin menyimpan data ini?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#28a745',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, simpan!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById("myForm").submit();
-                }
-            });
-        }
+  // Fungsi untuk menangani event keyup untuk biaya kurs
+  // function myFunctionKeyupKurs(rowid) {
+  //     // Implementasi fungsi yang sesuai
+  // }
 
-        // Menambahkan event listener untuk form submit
-        document.getElementById("myForm").addEventListener("submit", approveAlert);
+  // Fungsi untuk mengonfirmasi alert sebelum submit form
+  function approveAlert(event) {
+    event.preventDefault();
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Apakah Anda yakin ingin menyimpan data ini?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, simpan!',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById("myForm").submit();
+      }
+    });
+  }
 
-        // Event listener untuk input format saat mengetik
-        document.addEventListener("DOMContentLoaded", function() {
-            var hargaInputs = document.querySelectorAll('input[id^="harga_satuan_real"]');
-            var biayaKursInputs = document.querySelectorAll('input[id^="biaya_kurs_real"]');
+  // Menambahkan event listener untuk form submit
+  document.getElementById("myForm").addEventListener("submit", approveAlert);
 
-            hargaInputs.forEach(function(input) {
-                input.addEventListener('keyup', function() {
-                    var value = removeFormat(this.value); // Hapus format lama
-                    this.value = formatNumber(value); // Terapkan format baru
-                });
-            });
+  // Event listener untuk input format saat mengetik
+  document.addEventListener("DOMContentLoaded", function() {
+    var hargaInputs = document.querySelectorAll('input[id^="harga_satuan_real"]');
+    var biayaKursInputs = document.querySelectorAll('input[id^="biaya_kurs_real"]');
 
-            biayaKursInputs.forEach(function(input) {
-                input.addEventListener('keyup', function() {
-                    var value = removeFormat(this.value); // Hapus format lama
-                    this.value = formatNumber(value); // Terapkan format baru
-                });
-            });
-        });
+    hargaInputs.forEach(function(input) {
+      input.addEventListener('keyup', function() {
+        var value = removeFormat(this.value); // Hapus format lama
+        this.value = formatNumber(value); // Terapkan format baru
+      });
+    });
 
-function myFunctionKeyupKurs(rowid) {
-            var qty_real = parseInt(document.getElementById("qty_real" + rowid).value, 10);
-            var qty_get = parseInt(document.getElementById("qty_get" + rowid).value, 10);
-            var harga_satuan_real = parseInt(document.getElementById("harga_satuan_real" + rowid).value, 10);
-            var biaya_kurs_real =  parseFloat(removeFormat(document.getElementById("biaya_kurs_real" + rowid).value));
+    biayaKursInputs.forEach(function(input) {
+      input.addEventListener('keyup', function() {
+        var value = removeFormat(this.value); // Hapus format lama
+        this.value = formatNumber(value); // Terapkan format baru
+      });
+    });
+  });
 
-            var hasil_real = document.getElementById("hasil_real" + rowid);
-            var hasil_real_show = document.getElementById("hasil_real_show" + rowid);
-            var result_real = qty_real * harga_satuan_real;
-            var selisih = qty_get - qty_real;
-            hasilcalculate = result_real * biaya_kurs_real;
-            console.log(hasilcalculate);
+  function myFunctionKeyupKurs(rowid) {
+    var qty_real = parseInt(document.getElementById("qty_real" + rowid).value, 10);
+    var qty_get = parseInt(document.getElementById("qty_get" + rowid).value, 10);
+    var harga_satuan_real = parseInt(document.getElementById("harga_satuan_real" + rowid).value, 10);
+    var biaya_kurs_real = parseFloat(removeFormat(document.getElementById("biaya_kurs_real" + rowid).value));
 
-            // hasil_real.value = result_real;
-            // hasil_real_show.value = formatNumber(result_real.toFixed(2));
-            document.getElementById("hasil_get" + rowid).value = hasilcalculate;
-            document.getElementById("total_calculate" + rowid).value = formatNumber(hasilcalculate.toFixed(2));
+    var hasil_real = document.getElementById("hasil_real" + rowid);
+    var hasil_real_show = document.getElementById("hasil_real_show" + rowid);
+    var result_real = qty_real * harga_satuan_real;
+    var selisih = qty_get - qty_real;
+    hasilcalculate = result_real * biaya_kurs_real;
+    console.log(hasilcalculate);
 
-            // Kode untuk perhitungan total lainnya
-            var calculated_total_sum_qty = 0;
-            $("#myTablePK .classQty").each(function() {
-                var get_textbox_value = removeFormat($(this).val());
-                calculated_total_sum_qty += parseFloat(get_textbox_value);
-            });
+    // hasil_real.value = result_real;
+    // hasil_real_show.value = formatNumber(result_real.toFixed(2));
+    document.getElementById("hasil_get" + rowid).value = hasilcalculate;
+    document.getElementById("total_calculate" + rowid).value = formatNumber(hasilcalculate.toFixed(2));
 
-            var calculated_total_sum_harga = 0;
-            $("#myTablePK .classHarga").each(function() {
-                var get_textbox_value = removeFormat($(this).val());
-                calculated_total_sum_harga += parseFloat(get_textbox_value);
-            });
+    // Kode untuk perhitungan total lainnya
+    var calculated_total_sum_qty = 0;
+    $("#myTablePK .classQty").each(function() {
+      var get_textbox_value = removeFormat($(this).val());
+      calculated_total_sum_qty += parseFloat(get_textbox_value);
+    });
 
-            var calculated_total_sum_total_harga = 0;
-            $("#myTablePK .classTotalHarga").each(function() {
-                var get_textbox_value = removeFormat($(this).val());
-                calculated_total_sum_total_harga += parseFloat(get_textbox_value);
-            });
+    var calculated_total_sum_harga = 0;
+    $("#myTablePK .classHarga").each(function() {
+      var get_textbox_value = removeFormat($(this).val());
+      calculated_total_sum_harga += parseFloat(get_textbox_value);
+    });
 
-            var calculated_total_sum_biaya_kurs = 0;
-            $("#myTablePK .classBiayaKurs").each(function() {
-                var get_textbox_value = removeFormat($(this).val());
-                calculated_total_sum_biaya_kurs += parseFloat(get_textbox_value);
-            });
+    var calculated_total_sum_total_harga = 0;
+    $("#myTablePK .classTotalHarga").each(function() {
+      var get_textbox_value = removeFormat($(this).val());
+      calculated_total_sum_total_harga += parseFloat(get_textbox_value);
+    });
 
-            var calculated_total_sum_total_biaya_kurs = 0;
-            $("#myTablePK .classTotalBiayaKurs").each(function() {
-                var get_textbox_value = removeFormat($(this).val());
-                calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
-            });
+    var calculated_total_sum_biaya_kurs = 0;
+    $("#myTablePK .classBiayaKurs").each(function() {
+      var get_textbox_value = removeFormat($(this).val());
+      calculated_total_sum_biaya_kurs += parseFloat(get_textbox_value);
+    });
 
-            document.getElementById("selisihqty" + rowid).innerHTML = selisih;
-            document.getElementById("totalshowqty").value = formatNumber(calculated_total_sum_qty.toFixed(2));
-            document.getElementById("totalshowharga").value = formatNumber(calculated_total_sum_harga.toFixed(2));
-            document.getElementById("totalshowTH").value = formatNumber(calculated_total_sum_total_harga.toFixed(2));
-            document.getElementById("totalshowBK").value = formatNumber(calculated_total_sum_biaya_kurs.toFixed(2));
-            document.getElementById("totalshowCBK").value = formatNumber(calculated_total_sum_total_biaya_kurs.toFixed(2));
-  // var hasil_real = document.getElementById("hasil_real" + rowid).value;
-  // var biaya_kurs = document.getElementById("biaya_kurs_real" + rowid).value.replace(/\D/g, '');
-  // var get_textbox_valuer1 = biaya_kurs.replace(/\D/g, '');
-  // var get_textbox_valuer2 = get_textbox_valuer1.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  // var calculate = hasil_real * get_textbox_valuer2;
-  // var hasilcalculate = calculate.toLocaleString('en-US');
-  // document.getElementById("total_calculate" + rowid).value = hasilcalculate;
+    var calculated_total_sum_total_biaya_kurs = 0;
+    $("#myTablePK .classTotalBiayaKurs").each(function() {
+      var get_textbox_value = removeFormat($(this).val());
+      calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
+    });
 
-  // var table = document.getElementById("myTablePK");
+    document.getElementById("selisihqty" + rowid).innerHTML = selisih;
+    document.getElementById("totalshowqty").value = formatNumber(calculated_total_sum_qty.toFixed(2));
+    document.getElementById("totalshowharga").value = formatNumber(calculated_total_sum_harga.toFixed(2));
+    document.getElementById("totalshowTH").value = formatNumber(calculated_total_sum_total_harga.toFixed(2));
+    document.getElementById("totalshowBK").value = formatNumber(calculated_total_sum_biaya_kurs.toFixed(2));
+    document.getElementById("totalshowCBK").value = formatNumber(calculated_total_sum_total_biaya_kurs.toFixed(2));
+    // var hasil_real = document.getElementById("hasil_real" + rowid).value;
+    // var biaya_kurs = document.getElementById("biaya_kurs_real" + rowid).value.replace(/\D/g, '');
+    // var get_textbox_valuer1 = biaya_kurs.replace(/\D/g, '');
+    // var get_textbox_valuer2 = get_textbox_valuer1.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // var calculate = hasil_real * get_textbox_valuer2;
+    // var hasilcalculate = calculate.toLocaleString('en-US');
+    // document.getElementById("total_calculate" + rowid).value = hasilcalculate;
 
-  // var calculated_total_sum_total_biaya_kurs = 0;
-  // $("#myTablePK .classTotalBiayaKurs").each(function() {
-  //   var get_textbox_value = $(this).val().replace(/\D/g, '');
-  //   calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
-  // });
-  // document.getElementById("totalshowCBK").value = calculated_total_sum_total_biaya_kurs.toLocaleString('en-US');
-}
+    // var table = document.getElementById("myTablePK");
+
+    // var calculated_total_sum_total_biaya_kurs = 0;
+    // $("#myTablePK .classTotalBiayaKurs").each(function() {
+    //   var get_textbox_value = $(this).val().replace(/\D/g, '');
+    //   calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
+    // });
+    // document.getElementById("totalshowCBK").value = calculated_total_sum_total_biaya_kurs.toLocaleString('en-US');
+  }
 </script>

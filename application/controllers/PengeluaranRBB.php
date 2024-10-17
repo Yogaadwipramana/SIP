@@ -323,6 +323,22 @@ class PengeluaranRBB  extends CI_Controller{
     }
   }
 
+  public function getAlias() {
+    // Mengambil data dari POST request
+    $postData = json_decode(file_get_contents('php://input'), true);
+    $id_barang_real = $postData['id_barang_real'];
+    $alias = $postData['alias'];
+
+    $getData = $this->db->query("SELECT $alias as alias FROM barang WHERE id_barang = '$id_barang_real' ")->row();                     
+
+    // Mengirimkan response JSON kembali ke frontend
+    if ($getData) {
+        echo json_encode(['alias' => $getData->alias]);
+    } else {
+        echo json_encode(['alias' => null]); // Jika alias tidak ditemukan
+    }
+}
+
   public function cekKode(){
       $sub1 = $this->input->get("sub1");
       $datapengajuan = $this->db->query("SELECT id_barang FROM barang WHERE nama_brg = '$sub1' ")->row();
