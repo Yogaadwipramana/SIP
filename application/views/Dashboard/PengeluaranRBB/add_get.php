@@ -266,7 +266,7 @@
 
     // Periksa jika qtyValue melebihi aliasValue
     if (qtyValue > aliasValue) {
-      alert("Melebihi kapasitas, QTY tidak boleh lebih dari " + aliasValue);
+      Swal.fire("Melebihi kapasitas, QTY tidak boleh lebih dari " + aliasValue);
       element.value = ""; // Reset nilai qty jika melebihi
       updateTotalQtyDisplay(); // Update tampilan total setelah mereset
       return;
@@ -283,7 +283,7 @@
 
     // Periksa jika total qty melebihi maksimum yang diizinkan
     if (calculated_total_sum > 1650) {
-      alert("Melebihi kapasitas, QTY tidak boleh lebih dari 1.650,00");
+      Swal.fire("Melebihi kapasitas total, QTY tidak boleh lebih dari 1.650,00");
       element.value = ""; // Reset nilai qty jika melebihi
       updateTotalQtyDisplay(); // Update tampilan total setelah mereset
       return;
@@ -308,7 +308,7 @@
     });
 
     if (calculated_total_sum >= 1650) {
-      alert("Melebihi kapasitas total, QTY tidak boleh lebih dari 1.650,00");
+      Swal.fire("Melebihi kapasitas total, QTY tidak boleh lebih dari 1.650,00");
       return;
     }
 
@@ -354,7 +354,7 @@
       }
 
       if (isTankExists) {
-        alert("Tank tidak boleh sama dengan yang sudah ada.");
+        Swal.fire("Tank tidak boleh sama dengan yang sudah ada.");
         // Kembali ke opsi default "Pilih Jenis Tank"
         $(this).val("0");
       }

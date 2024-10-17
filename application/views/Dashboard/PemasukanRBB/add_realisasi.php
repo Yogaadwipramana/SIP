@@ -216,15 +216,25 @@
 
                   </thead>
                   <tbody id="myTablePK">
-                    <?php
+                  <?php
                     $no = 1;
+                    $sumTotalLoopQty2 = 0;
+                    $sumTotalLoopHarga2 = 0;
+                    $sumTotalLoopTH2 = 0;
+                    $sumTotalLoopBK2 = 0;
+                    $sumTotalLoopCBK2 = 0;
                     foreach ($data_estimasi_result as $value_result) :
-
+                      $sumTotalLoopQty2 += $value_result->jumlah;
+                      $sumTotalLoopHarga2 += $value_result->harga;
+                      $sumTotalLoopTH2 += $value_result->nilai_barang;
+                      $sumTotalLoopBK2 += $value_result->biaya_kurs;
+                      $sumTotalLoopCBK2 += $value_result->total_calculate;
                     ?>
                       <tr>
-
-                        <!-- <td><input type="text" autocomplete="off" name="" class="form-control" readonly="readonly" value="<?= $dataGet->id_barang ?>"></td> -->
+                        <!-- Quantity (readonly) -->
                         <td><input type="text" readonly="readonly" autocomplete="off" id="qty_get<?= $no ?>" name="qty_get<?= $no ?>" class="form-control" value="<?= number_format($value_result->jumlah, 0, ".", ""); ?>"></td>
+
+                        <!-- Tank (readonly dropdown) -->
                         <td>
                           <select id="tank_real_showE<?= $no ?>" name="tank_real<?= $no ?>" class="form-control" style="width:100%;" disabled="disabled">
                             <option value="">Pilih</option>
@@ -233,33 +243,31 @@
                             ?>
                               <option value="<?php echo $value->tank; ?>" <?= ($value_result->terminal_tank == $value->tank) ? 'selected' : ''; ?>><?php echo $value->nama_tangki_alias; ?></option>
                             <?php } ?>
-
                           </select>
                         </td>
+
+                        <!-- Currency (readonly dropdown) -->
                         <td>
                           <select id="kurs_real_showE<?= $no ?>" name="kurs_real<?= $no ?>" class="form-control classCur" style="width:100%;" disabled="disabled">
                             <option value="">Pilih</option>
                             <?php
                             foreach ($kurs as $value) {
-
                             ?>
                               <option value="<?php echo $value->id_kurs; ?>" <?= ($value_result->id_mata_uang == $value->id_kurs) ? 'selected' : ''; ?>><?php echo $value->mata_uang; ?></option>
                             <?php } ?>
                           </select>
                         </td>
+
                         <td><input type="text" id="harga_satuan_real_showE<?= $no ?>" name="harga_satuan_real<?= $no ?>" class="form-control" value="<?= number_format($value_result->harga, 2,  ",", "."); ?>" readonly="readonly"></td>
                         <td><input type="text" autocomplete="off" id="hasil_real_showE<?= $no ?>" value="<?= number_format($value_result->nilai_barang, 2, ",", "."); ?>" name="hasil_real_showE<?= $no ?>" class="form-control" readonly="readonly"></td>
                         <td><input type="text" id="harga_satuan_real_showE<?= $no ?>" name="harga_satuan_real<?= $no ?>" class="form-control" value="<?= number_format($value_result->biaya_kurs, 2, ",", "."); ?>" readonly="readonly"></td>
                         <td><input type="text" class="form-control classCalculateBiayaKurs" id="calculatebiayakurs_showE<?= $no ?>" value="<?= number_format($value_result->total_calculate, 2, ",", "."); ?>" readonly="readonly"></td>
                       </tr>
                       <input style="display: none;" type="text" value="<?= $no++ ?>">
-
                     <?php
-
                     endforeach;
                     ?>
                   </tbody>
-
                   <p id="demo"></p>
                   <!-- <div id="dataLimitPK"></div> -->
                   <!-- <tfoot>
@@ -269,6 +277,19 @@
                     <input type="text" placeholder="Total Qty" id="totalhasil3" class="form-control" value="0" readonly>
                   </td>
                   </tfoot> -->
+                  <tfoot>
+                    <tr style="text-align: center;">
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input disabled="disabled" type="text" id="totalshowqty2" class="form-control" value="<?= $sumTotalLoopQty2 ?>"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input disabled="disabled" type="text" id="totalshowharga2" class="form-control" value="<?= number_format($sumTotalLoopHarga2, 2, ",", "."); ?>" style="display:none;"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input disabled="disabled" type="text" id="totalshowTH2" class="form-control" value="<?= number_format($sumTotalLoopTH2, 2, ",", "."); ?>"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input disabled="disabled" type="text" id="totalshowBK2" class="form-control" value="<?= number_format($sumTotalLoopBK2, 2, ",", "."); ?>" style="display:none;"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input disabled="disabled" type="text" id="totalshowCBK2" class="form-control" value="<?= number_format($sumTotalLoopCBK2, 2, ",", "."); ?>"></td>
+                      <!--  <td class="JudulHeadr" style="padding-left: 5px; width: 10%; border-bottom: 1px solid black;">Bulan</td>
+                        <td class="JudulHeadr" style="padding-left: 5px; width: 10%; border-bottom: 1px solid black;">Tahun</td> -->
+                    </tr>
+                  </tfoot>
                 </table>
                 <br>
                 <h2>Data Realisasi</h2>
@@ -320,7 +341,8 @@
                             id="qty_real<?= $no ?>"
                             name="qty_real<?= $no ?>"
                             class="form-control classQty"
-                            value="<?= number_format($value_result->jumlah, 0, ".", ""); ?>" required="required">
+                            value="<?= number_format($value_result->jumlah, 0, ".", ""); ?>" onkeyup="myFunctionKeyup(<?= $no ?>)" required="required">
+                          <span style="color:red;">Selisih qty :<p id="selisihqty<?= $no ?>">0</p> </span>
                         </td>
 
                         <td>
@@ -350,7 +372,7 @@
                             }
 
                             if (isTankExists) {
-                              alert("Tank tidak boleh sama dengan yang sudah ada.");
+                              Swal.fire("Tank tidak boleh sama dengan yang sudah ada.");
                               // Kembali ke opsi default "Pilih"
                               $(this).val("0");
                             }
@@ -431,13 +453,16 @@
                   </tbody>
                   <tfoot>
                     <tr style="text-align: center;">
+                      <!-- <td class="JudulHeadr" style="padding-left: 5px; width: 14%;">Total</td> -->
                       <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowqty" class="form-control" value="<?= $sumTotalLoopQty ?>" required="required"></td>
-                      <td class="JudulHeadr" style="padding-left: 5px;"></td>
                       <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"></td>
-                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" style="display: none;" id="totalshowharga" class="form-control" value="<?= number_format($sumTotalLoopHarga, 2, ",", "."); ?>"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowharga" class="form-control" value="<?= number_format($sumTotalLoopHarga, 2, ",", "."); ?>" style="display:none;"></td>
                       <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowTH" class="form-control" value="<?= number_format($sumTotalLoopTH, 2, ",", "."); ?>" required="required"></td>
-                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" style="display: none;" id="totalshowBK" class="form-control" value="<?= number_format($sumTotalLoopBK, 2, ",", "."); ?>"></td>
+                      <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowBK" class="form-control" value="<?= number_format($sumTotalLoopBK, 2, ",", "."); ?>" style="display:none;"></td>
                       <td class="JudulHeadr" style="padding-left: 5px; width: 14%;"><input type="text" id="totalshowCBK" class="form-control" value="<?= number_format($sumTotalLoopCBK, 2, ",", "."); ?>" required="required"></td>
+                      <!--  <td class="JudulHeadr" style="padding-left: 5px; width: 10%; border-bottom: 1px solid black;">Bulan</td>
+                        <td class="JudulHeadr" style="padding-left: 5px; width: 10%; border-bottom: 1px solid black;">Tahun</td> -->
                     </tr>
                   </tfoot>
                   <p id="demo"></p>
@@ -485,27 +510,27 @@
   }
 
   // Fungsi untuk menangani event keyup
- // Fungsi untuk menangani event keyup
- function myFunctionKeyup(rowid) {
-        var qty_real = parseInt(document.getElementById("qty_real" + rowid).value, 10);
-        var qty_get = parseInt(document.getElementById("qty_get" + rowid).value, 10);
-        var harga_satuan_real = parseFloat(removeFormat(document.getElementById("harga_satuan_real" + rowid).value));
-        var biaya_kurs_real = parseInt(document.getElementById("biaya_kurs_real" + rowid).value, 10);
+  // Fungsi untuk menangani event keyup
+  function myFunctionKeyup(rowid) {
+    var qty_real = parseInt(document.getElementById("qty_real" + rowid).value, 10);
+    var qty_get = parseInt(document.getElementById("qty_get" + rowid).value, 10);
+    var harga_satuan_real = parseFloat(removeFormat(document.getElementById("harga_satuan_real" + rowid).value));
+    var biaya_kurs_real = parseInt(document.getElementById("biaya_kurs_real" + rowid).value, 10);
 
-        var hasil_real = document.getElementById("hasil_real" + rowid);
-        var hasil_real_show = document.getElementById("hasil_real_show" + rowid);
+    var hasil_real = document.getElementById("hasil_real" + rowid);
+    var hasil_real_show = document.getElementById("hasil_real_show" + rowid);
 
-        // Perhitungan
-        var result_real = qty_real * harga_satuan_real;
-        var selisih = qty_get - qty_real;
-        var hasilcalculate = result_real * biaya_kurs_real;
-        console.log(hasilcalculate);
+    // Perhitungan
+    var result_real = qty_real * harga_satuan_real;
+    var selisih = qty_get - qty_real;
+    var hasilcalculate = result_real * biaya_kurs_real;
+    console.log(hasilcalculate);
 
-        // Set hasil perhitungan di input tersembunyi
-        hasil_real.value = result_real;
+    // Set hasil perhitungan di input tersembunyi
+    hasil_real.value = result_real;
 
-        // Format hasil perhitungan dan tampilkan di input yang terlihat
-        hasil_real_show.value = formatNumber(result_real.toFixed(2));
+    // Format hasil perhitungan dan tampilkan di input yang terlihat
+    hasil_real_show.value = formatNumber(result_real.toFixed(2));
     // document.getElementById("hasil_get" + rowid).value = hasilcalculate;
     document.getElementById("total_calculate" + rowid).value = formatNumber(hasilcalculate.toFixed(2));
 
@@ -515,7 +540,7 @@
       var get_textbox_value = removeFormat($(this).val());
       calculated_total_sum_qty += parseFloat(get_textbox_value);
     });
-
+    
     var calculated_total_sum_harga = 0;
     $("#myTablePK .classHarga").each(function() {
       var get_textbox_value = removeFormat($(this).val());
@@ -540,7 +565,7 @@
       calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
     });
 
-    // document.getElementById("selisihqty" + rowid).innerHTML = selisih;
+    document.getElementById("selisihqty" + rowid).innerHTML = selisih;
     document.getElementById("totalshowqty").value = formatNumber(calculated_total_sum_qty.toFixed(2));
     document.getElementById("totalshowharga").value = formatNumber(calculated_total_sum_harga.toFixed(2));
     document.getElementById("totalshowTH").value = formatNumber(calculated_total_sum_total_harga.toFixed(2));
@@ -610,7 +635,7 @@
 
     // hasil_real.value = result_real;
     // hasil_real_show.value = formatNumber(result_real.toFixed(2));
-    // document.getElementById("hasil_get" + rowid).value = hasilcalculate;
+    document.getElementById("hasil_get" + rowid).value = hasilcalculate;
     document.getElementById("total_calculate" + rowid).value = formatNumber(hasilcalculate.toFixed(2));
 
     // Kode untuk perhitungan total lainnya
@@ -644,7 +669,7 @@
       calculated_total_sum_total_biaya_kurs += parseFloat(get_textbox_value);
     });
 
-    // document.getElementById("selisihqty" + rowid).innerHTML = selisih;
+    document.getElementById("selisihqty" + rowid).innerHTML = selisih;
     document.getElementById("totalshowqty").value = formatNumber(calculated_total_sum_qty.toFixed(2));
     document.getElementById("totalshowharga").value = formatNumber(calculated_total_sum_harga.toFixed(2));
     document.getElementById("totalshowTH").value = formatNumber(calculated_total_sum_total_harga.toFixed(2));

@@ -360,7 +360,7 @@
     });
 
     if (calculated_total_sum > 20860) {
-      alert("Melebihi kapasitas, QTY tidak boleh lebih dari 20.860,00");
+      Swal.fire("Melebihi kapasitas, QTY tidak boleh lebih dari 20.860,00");
       element.value = ""; // Reset nilai qty jika melebihi
       var newTotal = calculated_total_sum - qtyValue;
       document.getElementById("totalshowqty").value = newTotal.toLocaleString('id-ID', {
@@ -385,7 +385,7 @@
     });
 
     if (calculated_total_sum >= 20860) {
-      alert("Melebihi kapasitas total, QTY tidak boleh lebih dari 20.860,00");
+      Swal.fire("Melebihi kapasitas, QTY tidak boleh lebih dari 20.860,00");
       return;
     }
 
@@ -435,7 +435,7 @@ $('#tank' + a).change(function() {
     }
 
     if (isTankExists) {
-        alert("Tank tidak boleh sama dengan yang sudah ada.");
+      Swal.fire("Tank tidak boleh sama dengan yang sudah ada.");
         // Kembali ke opsi default "Pilih Jenis Tank"
         $(this).val("0");
     }
