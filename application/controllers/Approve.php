@@ -90,6 +90,8 @@ class Approve  extends CI_Controller{
         $this->load->view('Layouts/warper', $data);
     }
 
+
+    
     public function review_bk($id_get){
         $where_estimasi   = array('id_bk' => $id_get);
         $data_estimasi    = $this->model_global->edit_data($where_estimasi, 'barang_keluar_realisasi')->row();

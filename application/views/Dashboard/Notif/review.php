@@ -33,7 +33,7 @@
                   <label class="col-sm-2 control-label">No PO : </label>
                   <div class="col-sm-4">
                     <!-- <input type="text" autocomplete="off" placeholder="No PO"  name="po_number" class="form-control"> -->
-                    <input type="text" autocomplete="off" placeholder="No PO" name="po_number" class="form-control" value="<?= $data_estimasi->no_transaksi ?>">
+                    <input type="text" autocomplete="off" placeholder="No PO" name="po_number" class="form-control" value="<?= $data_estimasi->po_number ?>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -179,12 +179,12 @@
                       $sumTotalLoopCBK += $value_result->total_calculate;
                     ?>
                       <tr>
-                        <td><input type="text" readonly="readonly" onkeyup="myFunctionKeyup(<?= $no ?>)" autocomplete="off" id="qty_real<?= $no ?>" name="qty_real<?= $no ?>" class="form-control" value="<?= number_format($value_result->jumlah, 0, ".", ""); ?>"></td>
+                        <td><input type="text" readonly="readonly" onkeyup="myFunctionKeyup(<?= $no ?>)" autocomplete="off" id="qty_get<?= $no ?>" name="qty_get<?= $no ?>" class="form-control" value="<?= number_format($value_result->jumlah, 0, ".", ""); ?>"></td>
                         <td>
                           <select id="tank_real<?= $no ?>" name="tank_real<?= $no ?>" class="form-control" style="width:100%;" disabled="disabled">
                             <option value="">Pilih</option>
                             <?php foreach ($tank2 as $value) : ?>
-                              <option value="<?php echo $value->tank; ?>" <?= ($value_result->terminal_tank == $value->tank) ? 'selected' : ''; ?>><?php echo $value->tank; ?></option>
+                              <option value="<?php echo $value->tank; ?>" <?= ($value_result->terminal_tank == $value->tank) ? 'selected' : ''; ?>><?php echo $value->nama_tangki_alias; ?></option>
                             <?php endforeach; ?>
                           </select>
                         </td>
@@ -268,6 +268,17 @@
                     $sumTotalLoopCBK = 0;
 
                     foreach ($data_estimasi_result as $value_result) :
+
+                      $get_estimasi = $this->db->query("SELECT jumlah FROM barang_masuk_estimasi WHERE no_transaksi = '$value_result->no_transaksi' AND terminal_tank = '$value_result->terminal_tank'")->row();
+                      $get_realisasi = $this->db->query("SELECT jumlah FROM barang_masuk_realisasi WHERE no_transaksi = '$value_result->no_transaksi' AND terminal_tank = '$value_result->terminal_tank'")->row();
+
+                      $hasil_hitung = 0; // Default jika data tidak ditemukan
+
+                      if ($get_estimasi && $get_realisasi) {
+                        $hasil_hitung = $get_estimasi->jumlah - $get_realisasi->jumlah;
+                      }
+
+
                       // Accumulate totals for calculations
                       $sumTotalLoopQty += $value_result->jumlah;
                       $sumTotalLoopHarga += $value_result->harga;
@@ -276,14 +287,20 @@
                       $sumTotalLoopCBK += $value_result->total_calculate;
                     ?>
                       <tr>
-                        <td><input type="text" onkeyup="myFunctionKeyup(<?= $no ?>)" autocomplete="off" id="qty_real<?= $no ?>" name="qty_real<?= $no ?>" class="form-control" value="<?= number_format($value_result->jumlah, 0, ".", ""); ?>" readonly></td>
+                        <td>
+                          <input type="text" autocomplete="off" id="qty_real<?= $no ?>" name="qty_real<?= $no ?>" readonly="readonly" class="form-control classQty" value="<?= number_format($value_result->jumlah, 0, ".", ""); ?>" onkeyup="myFunctionKeyup(<?= $no ?>)">
+                          <span style="color:red;">
+                            Selisih qty : <p id="selisihqty<?= $no ?>"><?= number_format($hasil_hitung, 0, ".", ""); ?></p>
+                          </span>
+                        </td>
+
                         <td>
                           <select id="tank_real<?= $no ?>" name="tank_real<?= $no ?>" class="form-control" style="width:100%;" disabled="disabled">
                             <option value="">Pilih</option>
                             <?php
                             foreach ($tank2 as $value) {
                             ?>
-                              <option value="<?php echo $value->tank; ?>" <?= ($value_result->terminal_tank == $value->tank) ? 'selected' : ''; ?>><?php echo $value->tank; ?></option>
+                              <option value="<?php echo $value->tank; ?>" <?= ($value_result->terminal_tank == $value->tank) ? 'selected' : ''; ?>><?php echo $value->nama_tangki_alias; ?></option>
                             <?php } ?>
                           </select>
                         </td>
@@ -293,7 +310,7 @@
                             <?php
                             foreach ($kurs as $value) {
                             ?>
-                              <option value="<?php echo $value->id_kurs; ?>" <?= ($value_result->id_mata_uang == $value->id_kurs) ? 'selected' : ''; ?>><?php echo $value->mata_uang; ?></option>
+                              <option value="<?php echo $value->id_kurs; ?>" <?= ($ccc->id_mata_uang == $value->id_kurs) ? 'selected' : ''; ?>><?php echo $value->mata_uang; ?></option>
                             <?php } ?>
                           </select>
                         </td>
